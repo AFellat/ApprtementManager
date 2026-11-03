@@ -94,7 +94,7 @@ export default async function ListingPage({
  * source — including a fixture, which is the only way to review this page
  * before a real apartment has been shared.
  */
-export function ListingView({ listing }: { listing: PublicListing }) {
+function ListingView({ listing }: { listing: PublicListing }) {
   const where = locationLine(listing);
   const mapsHref = listing.latitude && listing.longitude
     ? `https://www.google.com/maps/search/?api=1&query=${listing.latitude},${listing.longitude}`
