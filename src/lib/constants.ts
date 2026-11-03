@@ -354,6 +354,12 @@ export function expenseCategoryLabel(category: string): string {
   return category;
 }
 
+/** What an expense is called in lists: a bill goes by its type ("Électricité"), not "Bills". */
+export function expenseLabel(category: string, billType: BillType | null | undefined): string {
+  if (category === "bills" && billType) return BILL_TYPE_LABELS[billType];
+  return expenseCategoryLabel(category);
+}
+
 export function categoryColor(category: ExpenseCategory): string {
   const index = CATEGORY_ORDER.indexOf(category);
   return SERIES_VARS[(index < 0 ? MAX_SERIES - 1 : index) % MAX_SERIES];

@@ -8,7 +8,7 @@ import { dayjs, eachDay, toISODate } from "@/lib/date-range";
 import { useT } from "@/i18n";
 import { formatDate, fullName, money, percent, number } from "@/lib/format";
 import {
-  APARTMENT_STATUS_META, BOOKING_STATUS_META, expenseCategoryLabel,
+  APARTMENT_STATUS_META, BOOKING_STATUS_META,
   TASK_STATUS_META, categoryColor,
 } from "@/lib/constants";
 import { capSlices, computeOccupancyByDay, expensesByCategory } from "@/data/analytics";
@@ -28,6 +28,7 @@ import { KpiCard } from "@/components/dashboard/kpi-card";
 import { ChartCard, ChartTable } from "@/components/charts/chart-card";
 import { HeatLegend, HeatStrip, RankedBars, TrendChart } from "@/components/charts/charts";
 import { ApartmentImage } from "@/components/apartments/apartment-image";
+import { ExpenseCategoryCell } from "@/components/expenses/category-cell";
 import { ApartmentFormDrawer } from "@/components/apartments/apartment-form";
 import { ShareDialog } from "@/components/apartments/share-dialog";
 import { ImageUploader } from "@/components/apartments/image-uploader";
@@ -218,17 +219,8 @@ export default function ApartmentProfilePage({
     {
       key: "category",
       header: t.dashboard.categoryCol,
-      sortValue: (row) => row.category,
-      cell: (row) => (
-        <span className="flex items-center gap-2 text-ink">
-          <span
-            aria-hidden
-            className="size-2 rounded-full"
-            style={{ background: categoryColor(row.category) }}
-          />
-          {expenseCategoryLabel(row.category)}
-        </span>
-      ),
+      sortValue: (row) => `${row.category}${row.bill_type ?? ""}`,
+      cell: (row) => <ExpenseCategoryCell category={row.category} billType={row.bill_type} />,
     },
     {
       key: "vendor",

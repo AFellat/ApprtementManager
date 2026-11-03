@@ -91,7 +91,7 @@ function ExpensesView() {
         }
         if (statusFilter !== "all" && expense.status !== statusFilter) return false;
         if (query.trim()) {
-          const haystack = `${expense.vendor ?? ""} ${expense.description ?? ""} ${expense.invoice_ref ?? ""} ${expenseCategoryLabel(expense.category)}`;
+          const haystack = `${expense.vendor ?? ""} ${expense.description ?? ""} ${expense.invoice_ref ?? ""} ${expenseCategoryLabel(expense.category)} ${expense.bill_type ? BILL_TYPE_LABELS[expense.bill_type] : ""}`;
           if (!matches(haystack, query)) return false;
         }
         return true;
