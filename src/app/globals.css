@@ -523,6 +523,11 @@
   .ps-detail thead {
     display: table-header-group;
   }
+  /* The total is printed once, at the end. As a footer group the browser
+     repeats it at the bottom of every page the table spans. */
+  .ps-detail tfoot {
+    display: table-row-group;
+  }
   .ps-detail tr {
     break-inside: avoid;
   }
