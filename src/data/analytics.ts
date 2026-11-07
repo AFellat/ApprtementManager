@@ -10,13 +10,16 @@ import {
   toISODate,
   type Granularity,
 } from "@/lib/date-range";
-import { BOOKING_SOURCE_LABELS, expenseCategoryLabel } from "@/lib/constants";
+import {
+  BILL_TYPE_LABELS, BOOKING_SOURCE_LABELS, expenseCategoryLabel, isBillType,
+} from "@/lib/constants";
 import { strings } from "@/i18n";
 import type {
   Apartment,
   ApartmentPerformance,
   Booking,
   BookingSource,
+  BillType,
   BreakdownSlice,
   DateRange,
   Expense,
@@ -335,13 +338,21 @@ export function bookingsBySource(bookings: Booking[], range: DateRange): Breakdo
   return toSlices(totals, (key) => BOOKING_SOURCE_LABELS[key]);
 }
 
+/**
+ * Bills are split by their type (Électricité, Eau…) rather than summed under
+ * one "Bills" slice; the slice key is then the bill type, which
+ * `categoryColor` maps back to the bills hue.
+ */
 export function expensesByCategory(expenses: Expense[], range: DateRange): BreakdownSlice[] {
-  const totals = new Map<ExpenseCategory, number>();
+  const totals = new Map<ExpenseCategory | BillType, number>();
   for (const expense of expenses) {
     if (!isWithin(expense.expense_date, range)) continue;
-    totals.set(expense.category, (totals.get(expense.category) ?? 0) + expense.amount);
+    const key = expense.category === "bills" && expense.bill_type ? expense.bill_type : expense.category;
+    totals.set(key, (totals.get(key) ?? 0) + expense.amount);
   }
-  return toSlices(totals, (key) => expenseCategoryLabel(key));
+  return toSlices(totals, (key) =>
+    isBillType(key) ? BILL_TYPE_LABELS[key] : expenseCategoryLabel(key),
+  );
 }
 
 export function expensesByApartment(

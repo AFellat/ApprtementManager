@@ -1,4 +1,5 @@
 import { strings } from "@/i18n";
+import { BILL_TYPES } from "@/types/domain";
 import type {
   ApartmentStatus,
   BillType,
@@ -360,8 +361,13 @@ export function expenseLabel(category: string, billType: BillType | null | undef
   return expenseCategoryLabel(category);
 }
 
-export function categoryColor(category: ExpenseCategory): string {
-  const index = CATEGORY_ORDER.indexOf(category);
+export function isBillType(value: string): value is BillType {
+  return (BILL_TYPES as readonly string[]).includes(value);
+}
+
+/** A bill type (a chart slice split out of bills) takes the bills hue. */
+export function categoryColor(category: ExpenseCategory | BillType): string {
+  const index = CATEGORY_ORDER.indexOf(isBillType(category) ? "bills" : category);
   return SERIES_VARS[(index < 0 ? MAX_SERIES - 1 : index) % MAX_SERIES];
 }
 

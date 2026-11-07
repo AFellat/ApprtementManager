@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSnapshot } from "@/data/queries";
 import { matches, normalize } from "@/lib/utils";
 import { formatDate, money } from "@/lib/format";
-import { BOOKING_SOURCE_LABELS, expenseCategoryLabel } from "@/lib/constants";
+import { BOOKING_SOURCE_LABELS, expenseCategoryLabel, expenseLabel } from "@/lib/constants";
 import type { SearchHit } from "@/types/domain";
 
 /**
@@ -124,12 +124,12 @@ export function useSearchIndex(): IndexedHit[] {
         {
           id: expense.id,
           type: "expense",
-          title: expense.vendor ?? expenseCategoryLabel(expense.category),
-          subtitle: expense.description ?? expenseCategoryLabel(expense.category),
+          title: expense.vendor ?? expenseLabel(expense.category, expense.bill_type),
+          subtitle: expense.description ?? expenseLabel(expense.category, expense.bill_type),
           meta: `${money(expense.amount)} · ${formatDate(expense.expense_date)}`,
           href: `/expenses?expense=${expense.id}`,
         },
-        `${expenseCategoryLabel(expense.category)} ${expense.invoice_ref ?? ""}`,
+        `${expenseCategoryLabel(expense.category)} ${expenseLabel(expense.category, expense.bill_type)} ${expense.invoice_ref ?? ""}`,
         1,
       );
     }

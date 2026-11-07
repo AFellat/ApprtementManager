@@ -16,7 +16,7 @@ import { exportCsv, matches } from "@/lib/utils";
 import { currencySymbol, formatDate, money, percent } from "@/lib/format";
 import {
   BILL_TYPE_LABELS,
-  expenseCategoryLabel, PAYMENT_METHOD_LABELS, PAYMENT_STATUS_META, categoryColor,
+  expenseCategoryLabel, expenseLabel, PAYMENT_METHOD_LABELS, PAYMENT_STATUS_META, categoryColor,
 } from "@/lib/constants";
 import {
   BILL_TYPES,
@@ -120,7 +120,7 @@ function ExpensesView() {
     const ok = await confirm({
       title: t.expenses.deleteConfirm,
       message: t.expenses.deleteMessage(
-        expense.vendor ?? expenseCategoryLabel(expense.category),
+        expense.vendor ?? expenseLabel(expense.category, expense.bill_type),
         money(expense.amount),
       ),
       confirmLabel: t.common.delete,

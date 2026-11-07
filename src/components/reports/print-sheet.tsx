@@ -4,7 +4,7 @@ import { formatDate, formatDateRange, fullName, money, number, percent } from "@
 import { dayjs } from "@/lib/date-range";
 import { bookingPeriodShare } from "@/data/analytics";
 import { PrintCalendar } from "./print-calendar";
-import { expenseCategoryLabel } from "@/lib/constants";
+import { expenseLabel } from "@/lib/constants";
 import { useT } from "@/i18n";
 import type {
   Apartment,
@@ -220,7 +220,7 @@ export function ReportPrintSheet({
             {costs.map((expense) => (
               <tr key={expense.id}>
                 <td>{formatDate(expense.expense_date)}</td>
-                <td>{expenseCategoryLabel(expense.category)}</td>
+                <td>{expenseLabel(expense.category, expense.bill_type)}</td>
                 <td>{expense.vendor || expense.description || "—"}</td>
                 <td>{expense.apartment?.name ?? "—"}</td>
                 <td className="ps-num">{money(expense.amount)}</td>

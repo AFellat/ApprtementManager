@@ -1,6 +1,6 @@
 import { downloadBlob } from "@/lib/utils";
 import { fullName } from "@/lib/format";
-import { expenseCategoryLabel } from "@/lib/constants";
+import { expenseLabel } from "@/lib/constants";
 import { bookingPeriodShare } from "@/data/analytics";
 import { strings } from "@/i18n";
 import type {
@@ -149,7 +149,7 @@ export function buildReportCsv({
       lines.push(
         row(
           expense.expense_date,
-          expenseCategoryLabel(expense.category),
+          expenseLabel(expense.category, expense.bill_type),
           expense.vendor || expense.description || "",
           expense.apartment?.name ?? "",
           amount(expense.amount),
